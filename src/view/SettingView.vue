@@ -1,0 +1,2 @@
+
+<template>Setting</template>
