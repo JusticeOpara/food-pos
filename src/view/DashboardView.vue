@@ -1,8 +1,8 @@
 <script setup>
-import StatCard from "@/components";
-import Order from "@/assets/images/order.png";
-import User from "@/assets/images/user.png";
-import Coin from "@/assets/images/coin.png";
+import StatCard from "@/components/UI/StatCard.vue";
+import order from "@/assets/images/order.png";
+import user from "@/assets/images/user.png";
+import coin from "@/assets/images/coin.png";
 import spicy from "@/assets/images/spicy.png"
 </script>
 
@@ -13,9 +13,9 @@ import spicy from "@/assets/images/spicy.png"
       <p class="font-light text-base">Tuesday 2 Feb 2021</p>
     </div>
     <div class="gap-6 flex w-full">
-      <StatCard :icon="Coin" amount="$10,243.00" :percentage="32.4" />
-      <StatCard :icon="Order" amount="10,243.00" :percentage="32.4" />
-      <StatCard :icon="User" amount="10,243.00" :percentage="32.4" />
+      <StatCard :icon="coin" amount="$10,243.00" :percentage="32.4" />
+      <StatCard :icon="order" amount="10,243.00" :percentage="32.4" />
+      <StatCard :icon="user" amount="10,243.00" :percentage="32.4" />
     </div>
 
     <!-- Order Report table-->

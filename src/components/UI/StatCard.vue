@@ -1,6 +1,6 @@
 
 <script setup>
-export const StatCard = {
+ defineProps({
   props: {
     amount: {
       type: String,
@@ -14,7 +14,7 @@ export const StatCard = {
       type: String,
     },
   },
-};
+});
 </script>
 
 <template>
