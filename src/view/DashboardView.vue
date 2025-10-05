@@ -1,14 +1,15 @@
 <script setup>
 import StatCard from "@/components/UI/StatCard.vue";
-import order from "@/assets/images/order.png";
-import user from "@/assets/images/user.png";
-import coin from "@/assets/images/coin.png";
-import spicy from "@/assets/images/spicy.png"
+import { order, coin, user, spicy } from "@/assets/images";
+import OrderReport from "@/components/UI/OrderReport.vue"
+import MostOrdered from "@/components/UI/MostOrdered.vue"
+import MostTypeOfOrder from "@/components/UI/MostTypeOfOrder.vue"
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full p-8">
-    <div>
+
+  <div class="flex flex-col w-full h-full p-8 gap-8 ">
+    <div class="text-white">
       <h1 class="font-bold text-2xl">Dashboard</h1>
       <p class="font-light text-base">Tuesday 2 Feb 2021</p>
     </div>
@@ -19,16 +20,15 @@ import spicy from "@/assets/images/spicy.png"
     </div>
 
     <!-- Order Report table-->
-  </div>
-  <div class="w-[372px] h-screen bg-red-300">
-    <h1 class="font-medium">Most Ordered</h1>
 
-    <div>Today</div>
-     <img :src="spicy" class="w-8  h-8" alt="spicy" />
-  <div>
-    <h1>Spicy seasoned seafood noodles</h1>
-    <span class="font-light ">200 dishes ordered</span>
+    <OrderReport />
   </div>
+
+
+  <div class="w-[600px] gap-8 py-8 pr-8 justify-between flex flex-col">
+    <MostOrdered />
+    <MostTypeOfOrder />
   </div>
- 
+
+
 </template>

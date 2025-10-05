@@ -1,17 +1,11 @@
-import Discount from "./discount.png";
-import Home from "@/assets/images/home.png";
-import Message from "@/assets/images/message.png";
-import Store from "@/assets/images/store.png"
-import Logout from "@/assets/images/logout.png";
-import Notification from "@/assets/images/notification.png";
-import Graph from "@/assets/images/graph.png"
-
-export default  {
-    Discount,
-    Home,
-    Message,
-    Store,
-    Logout,
-    Notification,
-    Graph
-}
+export { default as discount } from "./discount.png";
+export { default as home } from "./home.png";
+export { default as message } from "./message.png";
+export { default as store } from "./store.png";
+export { default as logout } from "./logout.png";
+export { default as notification } from "./notification.png";
+export { default as order } from "./order.png";
+export { default as user } from "./user.png";
+export { default as coin } from "./coin.png";
+export { default as spicy } from "./spicy.png";
+export { default as graph } from "./graph.png";

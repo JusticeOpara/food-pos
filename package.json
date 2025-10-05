@@ -10,15 +10,19 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
+    "apexcharts": "^5.3.5",
+    "chart.js": "^4.5.0",
     "husky": "^9.1.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1",
-    "vue-spinner": "^1.0.4"
+    "vue-spinner": "^1.0.4",
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@vitejs/plugin-vue": "^5.2.3",
     "autoprefixer": "^10.4.21",
+    "eslint-plugin-vue": "^10.5.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.7",
     "vite": "^6.2.4",
