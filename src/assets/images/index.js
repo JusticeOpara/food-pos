@@ -9,3 +9,4 @@ export { default as user } from "./user.png";
 export { default as coin } from "./coin.png";
 export { default as spicy } from "./spicy.png";
 export { default as graph } from "./graph.png";
+export { default as setting}  from "./setting.svg";

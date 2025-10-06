@@ -7,8 +7,8 @@ import MostTypeOfOrder from "@/components/UI/MostTypeOfOrder.vue"
 </script>
 
 <template>
-
-  <div class="flex flex-col w-full h-full p-8 gap-8 ">
+<div class="flex flex-col h-full w-full md:flex-row items-center justify-center p-4 space-y-8 md:space-y-0">
+ <div class="flex flex-col w-full h-full md:p-8 gap-8 "> 
     <div class="text-white">
       <h1 class="font-bold text-2xl">Dashboard</h1>
       <p class="font-light text-base">Tuesday 2 Feb 2021</p>
@@ -25,10 +25,12 @@ import MostTypeOfOrder from "@/components/UI/MostTypeOfOrder.vue"
   </div>
 
 
-  <div class="w-[600px] gap-8 py-8 pr-8 justify-between flex flex-col">
+  <div class="md:w-[600px] w-full gap-8 md:py-8 md:pr-8 justify-between flex flex-col">
     <MostOrdered />
     <MostTypeOfOrder />
   </div>
+</div>
+ 
 
 
 </template>

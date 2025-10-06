@@ -15,7 +15,7 @@ const filteredOrders = computed(() => {
 const getStatusClass = (status) => {
   switch (status) {
     case "Completed":
-      return "bg-[#1AAE9F]/20 text-[#1AAE9F]";
+      return "bg-[#1AAE9F]/20 text-[#1AAE9F] ";
     case "Preparing":
       return "bg-[#5A50D2]/20 text-[#5A50D2]";
     case "Pending":
@@ -94,8 +94,8 @@ const getStatusClass = (status) => {
     >
       <span>Customer</span>
       <span>Menu</span>
-      <span>Total Payment</span>
-      <span>Status</span>
+      <span class="text-right">Total Payment</span>
+      <span class="text-right">Status</span>
     </div>
 
     <!-- Scrollable Table Rows -->
@@ -116,15 +116,15 @@ const getStatusClass = (status) => {
         </div>
 
         <!-- Menu -->
-        <div class="text-gray-300">{{ order.menu }}</div>
+        <div class="text-gray-300 ">{{ order.menu }}</div>
 
         <!-- Total -->
-        <div class="text-gray-200">{{ order.total }}</div>
+        <div class="text-gray-200 text-right">{{ order.total }}</div>
 
         <!-- Status -->
-        <div>
+        <div class="text-right">
           <span
-            class="px-3 py-1 text-xs font-medium rounded-full"
+            class="px-3 py-1 text-xs font-medium rounded-full text-left"
             :class="getStatusClass(order.status)"
           >
             {{ order.status }}

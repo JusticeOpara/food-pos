@@ -11,7 +11,7 @@
     </div>
 
     <div class="flex items-center h-full">
-      <div class=" w-60 h-60">
+      <div class="w-56 h-56">
         <apexchart
           type="donut"
           :options="chartOptions"
