@@ -2,6 +2,7 @@ import DashboardView from "@/view/DashboardView.vue";
 import NotFoundView from "@/view/NotFoundView.vue";
 import SettingView from "@/view/SettingView.vue";
 import HomeView from "@/view/HomeView.vue"
+import NotificationsView from "@/view/NotificationsView.vue"
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: "/settings",
       name: "setting",
       component: SettingView,
+    },
+     {
+      path: "/notifications",
+      name: "notifications",
+      component: NotificationsView,
     },
     {
       path: "/:catchAll(.*)",

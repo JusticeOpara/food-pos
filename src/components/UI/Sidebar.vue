@@ -81,19 +81,12 @@ const emit = defineEmits(["navigate", "logout"]);
     <div
       class="w-14 h-14  rounded-xl flex items-center justify-center shadow-lg"
     >
-      <!-- <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-8 h-8 text-white"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path d="M4 3h7v9H4V3zm0 13h7v5H4v-5zm9-13h7v5h-7V3zm0 9h7v9h-7v-9z" />
-      </svg> -->
+  
       <img :src="store" alt="" />
     </div>
 
     <!-- Navigation Items -->
-    <nav class="flex flex-col items-center gap-6 flex-1">
+    <nav class="flex flex-col items-center gap-10 flex-1">
       <!-- Home -->
       <button
         @click="navigateTo('home')"
@@ -116,33 +109,7 @@ const emit = defineEmits(["navigate", "logout"]);
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
-      </button>
-
-      <!-- Discount -->
-      <button
-        @click="navigateTo('discount')"
-        :class="[
-          'w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300',
-          isActive('discount')
-            ? 'bg-[#EA7C69] text-white shadow-lg shadow-[#EA7C69]/30'
-            : 'text-[#EA7C69] hover:bg-[#252836]',
-        ]"
-        title="Discount"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="8" y1="16" x2="16" y2="8"></line>
-          <circle cx="9" cy="15" r="1" fill="currentColor"></circle>
-          <circle cx="15" cy="9" r="1" fill="currentColor"></circle>
-        </svg>
-      </button>
+      </button> 
 
       <!-- Dashboard -->
       <button

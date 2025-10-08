@@ -124,8 +124,8 @@
           :class="[
           'text-base font-medium mb-1',
           activeSection === 'products'
-            ? 'text-white'
-            : 'text-[#EA7D6A]',
+            ? 'text-[#EA7D6A]'
+            : 'text-white',
         ]"
           >Products Management</h3>
           <p class="text-sm text-gray-400">Manage your product, pricing, etc</p>

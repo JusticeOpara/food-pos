@@ -22,7 +22,7 @@ defineProps({
 
 <template>
   <div
-    class="w-80 bg-gradient-to-b from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl"
+    class="w-80 bg-[#201D2B] rounded-3xl overflow-hidden shadow-2xl"
     @click="handleClick"
   >
     <!-- Image Container -->

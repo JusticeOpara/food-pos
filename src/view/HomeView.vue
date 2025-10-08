@@ -5,10 +5,35 @@
            LEFT SECTION: MENU & DISHES
       ======================================== -->
       <div class="flex-1 overflow-y-auto p-8">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-white mb-1">Jaegar Resto</h1>
-          <p class="text-gray-400 text-sm">{{ currentDate }}</p>
+        <div class="flex justify-between">
+          <!-- Header -->
+          <div class="mb-8">
+            <h1 class="text-3xl font-bold text-white mb-1">Jakarta Resto</h1>
+            <p class="text-gray-400 text-sm">{{ currentDate }}</p>
+          </div>
+          <!-- Search Bar -->
+          <div class="mb-6">
+            <div class="relative">
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search for food, coffe, etc.."
+                class="w-full bg-[#252836] text-white text-sm px-4 py-3 pl-10 rounded-lg border border-gray-700 focus:outline-none focus:border-[#EA7C69] placeholder-gray-500"
+                @input="handleSearch"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </div>
+          </div>
         </div>
 
         <!-- Category Navigation -->
@@ -21,7 +46,7 @@
               'pb-4 text-sm font-medium transition-colors whitespace-nowrap',
               activeCategory === category
                 ? 'text-[#EA7C69] border-b-2 border-[#EA7C69]'
-                : 'text-gray-400 hover:text-white'
+                : 'text-gray-400 hover:text-white',
             ]"
           >
             {{ category }}
@@ -31,7 +56,7 @@
         <!-- Choose Dishes Header with Dine Option Dropdown -->
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold">Choose Dishes</h2>
-          
+
           <!-- Dine Option Dropdown -->
           <div class="relative">
             <button
@@ -50,7 +75,7 @@
               </svg>
               <span class="text-sm">{{ selectedDineOption }}</span>
             </button>
-            
+
             <!-- Dropdown Menu -->
             <transition name="fade">
               <div
@@ -70,15 +95,14 @@
             </transition>
           </div>
         </div>
-
         <!-- Dishes Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 ">
           <DishCard
             v-for="dish in filteredDishes"
             :key="dish.id"
-            :title="dish.title"
+            :title="dish.name"
             :price="dish.price"
-            :available="dish.available"
+            :available="dish.bowls"
             :image="dish.image"
             @add-to-cart="addToCart"
           />
@@ -110,32 +134,10 @@
       <!-- ========================================
            RIGHT SECTION: ORDER CARD
       ======================================== -->
-      <div class="w-[400px] bg-[#1F1D2B] border-l border-gray-800 flex flex-col">
+      <div
+        class="w-[400px] bg-[#1F1D2B] border-l border-gray-800 flex flex-col"
+      >
         <div class="p-6 flex-1 overflow-hidden flex flex-col">
-          <!-- Search Bar -->
-          <div class="mb-6">
-            <div class="relative">
-              <input
-                v-model="searchQuery"
-                type="text"
-                placeholder="Search for food, coffe, etc.."
-                class="w-full bg-[#252836] text-white text-sm px-4 py-3 pl-10 rounded-lg border border-gray-700 focus:outline-none focus:border-[#EA7C69] placeholder-gray-500"
-                @input="handleSearch"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-            </div>
-          </div>
-
           <!-- Order Card Component -->
           <OrderCard
             :order-number="orderNumber"
@@ -176,194 +178,242 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import DishCard from '@/components/UI/DishCard.vue'
-import OrderCard from '@/components/UI/OrderCard.vue'
-import dishes from "@/mock/dishes-data.js"
-
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import DishCard from "@/components/UI/DishCard.vue";
+import OrderCard from "@/components/UI/OrderCard.vue";
 
 // ========================================
 // STATE MANAGEMENT
 // ========================================
 
 // Navigation & UI State
-const activeCategory = ref('Hot Dishes')
-const selectedDineOption = ref('Dine In')
-const showDineOptions = ref(false)
-const searchQuery = ref('')
-const showNotification = ref(false)
-const notificationMessage = ref('')
+const activeCategory = ref("Hot Dishes");
+const selectedDineOption = ref("Dine In");
+const showDineOptions = ref(false);
+const searchQuery = ref("");
+const showNotification = ref(false);
+const notificationMessage = ref("");
+
+// Dishes State - Load from localStorage
+const allDishes = ref([]);
+const loadingDishes = ref(true);
 
 // Order State
-const orderType = ref('Dine In')
-const orderNumber = ref('34562')
-const discount = ref(0)
+const orderType = ref("Dine In");
+const orderNumber = ref("34562");
+const discount = ref(0);
 const orderItems = ref([
   {
     id: 1,
-    name: 'Spicy seasoned seafood noodles',
+    name: "Spicy seasoned seafood noodles",
     price: 2.29,
     quantity: 2,
-    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',
-    note: 'Please, just a little bit spicy only.',
-    showNoteInput: true
+    image:
+      "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80",
+    note: "Please, just a little bit spicy only.",
+    showNoteInput: true,
   },
   {
     id: 2,
-    name: 'Salted pasta with mushroom sauce',
+    name: "Salted pasta with mushroom sauce",
     price: 2.69,
     quantity: 1,
-    image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80',
-    note: '',
-    showNoteInput: true
+    image:
+      "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80",
+    note: "",
+    showNoteInput: true,
   },
- 
-])
+]);
 
 // ========================================
 // CONSTANTS
 // ========================================
 
-const categories = ['Hot Dishes', 'Cold Dishes', 'Soup', 'Grill', 'Appetizer', 'Dessert']
-const dineOptions = ['Dine In', 'To Go', 'Delivery']
-
-
+const categories = [
+  "Hot Dishes",
+  "Cold Dishes",
+  "Soup",
+  "Grill",
+  "Appetizer",
+  "Dessert",
+];
+const dineOptions = ["Dine In", "To Go", "Delivery"];
 
 // ========================================
 // COMPUTED PROPERTIES
 // ========================================
 
 const currentDate = computed(() => {
-  const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }
-  return new Date().toLocaleDateString('en-US', options)
-})
+  const options = {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  return new Date().toLocaleDateString("en-US", options);
+});
 
 const currentDishes = computed(() => {
-  return dishes[activeCategory.value] || []
-})
+  return allDishes.value.filter(
+    (dish) => dish.category === activeCategory.value
+  );
+});
+
 
 const filteredDishes = computed(() => {
   if (!searchQuery.value.trim()) {
-    return currentDishes.value
+    return currentDishes.value;
   }
-  
-  const query = searchQuery.value.toLowerCase().trim()
-  return currentDishes.value.filter(dish => 
-    dish.title.toLowerCase().includes(query)
-  )
-})
+
+  const query = searchQuery.value.toLowerCase().trim();
+  return currentDishes.value.filter((dish) =>
+    dish.name.toLowerCase().includes(query)
+  );
+});
+
+console.log("currentDishes:", filteredDishes.value)
 
 // ========================================
 // METHODS
 // ========================================
 
+/**
+ * Load dishes from localStorage
+ */
+const loadDishesFromStorage = () => {
+  try {
+    loadingDishes.value = true;
+    const savedDishes = localStorage.getItem("restaurant_dishes");
+
+    if (savedDishes) {
+      allDishes.value = JSON.parse(savedDishes);
+      console.log("Loaded dishes from localStorage:", allDishes.value.length);
+    } else {
+      console.warn("No dishes found in localStorage");
+      allDishes.value = [];
+    }
+  } catch (error) {
+    console.error("Error loading dishes from localStorage:", error);
+    allDishes.value = [];
+  } finally {
+    loadingDishes.value = false;
+  }
+};
+
+/**
+ * Watch for localStorage changes (if dishes are updated in Products Management)
+ */
+const watchStorageChanges = () => {
+  window.addEventListener("storage", (event) => {
+    if (event.key === "restaurant_dishes") {
+      console.log("Dishes updated in localStorage, reloading...");
+      loadDishesFromStorage();
+    }
+  });
+};
+
 const toggleDineOptions = () => {
-  showDineOptions.value = !showDineOptions.value
-}
+  showDineOptions.value = !showDineOptions.value;
+};
 
 const closeDineOptions = () => {
-  showDineOptions.value = false
-}
+  showDineOptions.value = false;
+};
 
 const selectDineOption = (option) => {
-  selectedDineOption.value = option
-  orderType.value = option
-  showDineOptions.value = false
-}
+  selectedDineOption.value = option;
+  orderType.value = option;
+  showDineOptions.value = false;
+};
 
 const addToCart = (dish) => {
   // Check if dish already exists in order
   const existingItem = orderItems.value.find(
-    item => item.name.toLowerCase() === dish.title.toLowerCase()
-  )
-  
+    (item) => item.name.toLowerCase() === dish.name.toLowerCase()
+  );
+
   if (existingItem) {
     // Increment quantity if exists
-    existingItem.quantity++
+    existingItem.quantity++;
   } else {
     // Add new item to order
-    const newId = orderItems.value.length > 0 
-      ? Math.max(...orderItems.value.map(item => item.id)) + 1 
-      : 1
-    
+    const newId =
+      orderItems.value.length > 0
+        ? Math.max(...orderItems.value.map((item) => item.id)) + 1
+        : 1;
+
     orderItems.value.push({
       id: newId,
-      name: dish.title,
+      name: dish.name,
       price: dish.price,
       quantity: 1,
       image: dish.image,
-      note: '',
-      showNoteInput: false
-    })
+      note: "",
+      showNoteInput: false,
+    });
   }
-  
+
   // Show success notification
-  showSuccessNotification(`${dish.title} added to cart`)
-}
+  showSuccessNotification(`${dish.name} added to cart`);
+};
 
 const removeFromOrder = (itemId) => {
-  const item = orderItems.value.find(item => item.id === itemId)
+  const item = orderItems.value.find((item) => item.id === itemId);
   if (item) {
-    orderItems.value = orderItems.value.filter(item => item.id !== itemId)
-    showSuccessNotification(`${item.name} removed from cart`)
+    orderItems.value = orderItems.value.filter((item) => item.id !== itemId);
+    showSuccessNotification(`${item.name} removed from cart`);
   }
-}
+};
 
 const updateItemQuantity = (itemId, newQuantity) => {
-  const item = orderItems.value.find(item => item.id === itemId)
+  const item = orderItems.value.find((item) => item.id === itemId);
   if (item && newQuantity > 0) {
-    item.quantity = newQuantity
+    item.quantity = newQuantity;
   }
-}
+};
 
 const updateItemNote = (itemId, note) => {
-  const item = orderItems.value.find(item => item.id === itemId)
+  const item = orderItems.value.find((item) => item.id === itemId);
   if (item) {
-    item.note = note
+    item.note = note;
   }
-}
+};
 
 const handleSearch = () => {
   // Search is handled by computed property filteredDishes
-  // This method can be used for analytics or additional logic
-  console.log('Searching for:', searchQuery.value)
-}
+  console.log("Searching for:", searchQuery.value);
+};
 
 const handlePayment = (orderData) => {
-  console.log('Processing payment for order:', orderData)
-  
+  console.log("Processing payment for order:", orderData);
+
   // Show success message
   alert(
     `Order #${orderNumber.value} placed successfully!\n\n` +
-    `Type: ${orderData.orderType}\n` +
-    `Items: ${orderData.items.length}\n` +
-    `Subtotal: $${orderData.subtotal.toFixed(2)}\n` +
-    `Discount: $${orderData.discount.toFixed(2)}\n` +
-    `Total: $${orderData.total.toFixed(2)}`
-  )
-  
-  // Here you would typically:
-  // 1. Navigate to payment page
-  // 2. Send order to backend API
-  // 3. Clear cart after successful payment
-  
-  // Example: Clear cart and reset
-  // orderItems.value = []
-  // generateNewOrderNumber()
-}
+      `Type: ${orderData.orderType}\n` +
+      `Items: ${orderData.items.length}\n` +
+      `Subtotal: $${orderData.subtotal.toFixed(2)}\n` +
+      `Discount: $${orderData.discount.toFixed(2)}\n` +
+      `Total: $${orderData.total.toFixed(2)}`
+  );
+
+  // Clear cart after successful payment
+  orderItems.value = [];
+  generateNewOrderNumber();
+};
 
 const showSuccessNotification = (message) => {
-  notificationMessage.value = message
-  showNotification.value = true
-  
+  notificationMessage.value = message;
+  showNotification.value = true;
+
   setTimeout(() => {
-    showNotification.value = false
-  }, 3000)
-}
+    showNotification.value = false;
+  }, 3000);
+};
 
 const generateNewOrderNumber = () => {
-  orderNumber.value = Math.floor(10000 + Math.random() * 90000).toString()
-}
+  orderNumber.value = Math.floor(10000 + Math.random() * 90000).toString();
+};
 
 // ========================================
 // DIRECTIVES
@@ -374,49 +424,65 @@ const vClickOutside = {
   mounted(el, binding) {
     el.clickOutsideEvent = (event) => {
       if (!(el === event.target || el.contains(event.target))) {
-        binding.value()
+        binding.value();
       }
-    }
-    document.addEventListener('click', el.clickOutsideEvent)
+    };
+    document.addEventListener("click", el.clickOutsideEvent);
   },
   unmounted(el) {
-    document.removeEventListener('click', el.clickOutsideEvent)
-  }
-}
+    document.removeEventListener("click", el.clickOutsideEvent);
+  },
+};
 
 // ========================================
 // LIFECYCLE HOOKS
 // ========================================
 
 onMounted(() => {
-  console.log('MenuPage mounted successfully')
-})
+  console.log("MenuPage mounted successfully");
+
+  // Load dishes from localStorage
+  loadDishesFromStorage();
+
+  // Watch for storage changes
+  watchStorageChanges();
+});
 
 onUnmounted(() => {
-  console.log('MenuPage unmounted')
-})
+  console.log("MenuPage unmounted");
+});
+
+// Watch for category changes
+watch(activeCategory, (newCategory) => {
+  console.log("Category changed to:", newCategory);
+});
 </script>
 
 <style scoped>
-/* ========================================
-   SCROLLBAR STYLES
-======================================== */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 8px;
+/* Transition animations */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
 }
 
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: #252836;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #3C3F50;
-  border-radius: 10px;
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
 }
 
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #4A4E5E;
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translate(-50%, 100px);
+  opacity: 0;
 }
+</style>
+
+<!-- <style scoped>
 
 /* ========================================
    TRANSITIONS
@@ -450,4 +516,4 @@ onUnmounted(() => {
   opacity: 0;
   transform: translate(-50%, 20px);
 }
-</style>
+</style> -->
