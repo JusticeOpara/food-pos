@@ -2,9 +2,9 @@
   <div class="h-full w-full rounded-md bg-[#201D2B] text-white p-8">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-semibold">Products Management</h1>
+      <h1 class="lg:text-3xl text-2xl font-semibold">Products Management</h1>
       <button
-        class="flex items-center gap-2 px-6 py-3 border border-gray-600 rounded-lg hover:border-gray-500 transition-colors"
+        class="items-center gap-2 px-6 py-3 border border-gray-600 rounded-lg hover:border-gray-500 transition-colors hidden md: flex"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,28 +25,31 @@
     </div>
 
     <!-- Category Tabs -->
-    <div class="flex gap-8 mb-8 border-b border-gray-700">
-      <button
-        v-for="cat in categories"
-        :key="cat"
-        @click="activeCategory = cat"
-        :class="[
-          'pb-4 text-sm font-medium transition-colors relative',
-          activeCategory === cat
-            ? 'text-[#ff6b6b]'
-            : 'text-gray-400 hover:text-gray-300',
-        ]"
-      >
-        {{ cat }}
-        <div
-          v-if="activeCategory === cat"
-          class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff6b6b]"
-        ></div>
-      </button>
+    <div class="mb-6 lg:mb-8 border-b border-gray-700 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div class="flex gap-4 sm:gap-8 min-w-max">
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          @click="activeCategory = cat"
+          :class="[
+            'pb-3 sm:pb-4 text-sm font-medium transition-colors relative whitespace-nowrap',
+            activeCategory === cat
+              ? 'text-[#ff6b6b]'
+              : 'text-gray-400 hover:text-gray-300',
+          ]"
+        >
+          {{ cat }}
+          <div
+            v-if="activeCategory === cat"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff6b6b]"
+          ></div>
+        </button>
+      </div>
     </div>
+    
 
     <!-- Dishes Grid -->
-    <div class="grid grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
       <!-- Add New Dish Card -->
       <div
         @click="openAddModal"

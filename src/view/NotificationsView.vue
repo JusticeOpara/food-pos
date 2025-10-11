@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-[#252836] p-8">
-    <div class="max-w-4xl mx-auto">
+  <div class="min-h-screen bg-[#252836] p-8 pb-26 md:pb-0">
+    <div class="max-w-4xl mx-auto ">
       <h1 class="text-white text-3xl font-bold mb-8">Notifications</h1>
 
       <!-- Notifications List -->

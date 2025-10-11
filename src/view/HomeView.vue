@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-full bg-[#252836] text-white">
+  <div class="min-h-screen w-full bg-[#252836] text-white pb-16 md:pb-0">
     <div class="flex h-screen">
       <!-- ========================================
            LEFT SECTION: MENU & DISHES
@@ -14,21 +14,11 @@
           <!-- Search Bar -->
           <div class="mb-6">
             <div class="relative">
-              <input
-                v-model="searchQuery"
-                type="text"
-                placeholder="Search for food, coffe, etc.."
+              <input v-model="searchQuery" type="text" placeholder="Search for foods..."
                 class="w-full bg-[#252836] text-white text-sm px-4 py-3 pl-10 rounded-lg border border-gray-700 focus:outline-none focus:border-[#EA7C69] placeholder-gray-500"
-                @input="handleSearch"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
+                @input="handleSearch" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-3.5 h-5 w-5 text-gray-500" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
@@ -37,20 +27,17 @@
         </div>
 
         <!-- Category Navigation -->
-        <nav class="flex gap-8 mb-8 border-b border-gray-700">
-          <button
-            v-for="category in categories"
-            :key="category"
-            @click="activeCategory = category"
-            :class="[
+        <nav class="mb-8 border-b border-gray-700 overflow-x-auto scrollbar-hide">
+          <div class="flex md:gap-8 gap-4 min-w-max">
+            <button v-for="category in categories" :key="category" @click="activeCategory = category" :class="[
               'pb-4 text-sm font-medium transition-colors whitespace-nowrap',
               activeCategory === category
                 ? 'text-[#EA7C69] border-b-2 border-[#EA7C69]'
                 : 'text-gray-400 hover:text-white',
-            ]"
-          >
-            {{ category }}
-          </button>
+            ]">
+              {{ category }}
+            </button>
+          </div>
         </nav>
 
         <!-- Choose Dishes Header with Dine Option Dropdown -->
@@ -59,18 +46,10 @@
 
           <!-- Dine Option Dropdown -->
           <div class="relative">
-            <button
-              @click="toggleDineOptions"
-              class="flex items-center gap-2 bg-[#1F1D2B] px-4 py-2 rounded-lg border border-gray-700 hover:bg-[#252836] transition-colors"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
+            <button @click="toggleDineOptions"
+              class="flex items-center gap-2 bg-[#1F1D2B] px-4 py-2 rounded-lg border border-gray-700 hover:bg-[#252836] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
               <span class="text-sm">{{ selectedDineOption }}</span>
@@ -78,17 +57,10 @@
 
             <!-- Dropdown Menu -->
             <transition name="fade">
-              <div
-                v-if="showDineOptions"
-                v-click-outside="closeDineOptions"
-                class="absolute top-full right-0 mt-2 w-40 bg-[#1F1D2B] border border-gray-700 rounded-lg shadow-xl z-10"
-              >
-                <button
-                  v-for="option in dineOptions"
-                  :key="option"
-                  @click="selectDineOption(option)"
-                  class="block w-full text-left text-sm px-4 py-2 hover:bg-[#252836] transition-colors first:rounded-t-lg last:rounded-b-lg"
-                >
+              <div v-if="showDineOptions" v-click-outside="closeDineOptions"
+                class="absolute top-full right-0 mt-2 w-40 bg-[#1F1D2B] border border-gray-700 rounded-lg shadow-xl z-10">
+                <button v-for="option in dineOptions" :key="option" @click="selectDineOption(option)"
+                  class="block w-full text-left text-sm px-4 py-2 hover:bg-[#252836] transition-colors first:rounded-t-lg last:rounded-b-lg">
                   {{ option }}
                 </button>
               </div>
@@ -97,35 +69,16 @@
         </div>
         <!-- Dishes Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 ">
-          <DishCard
-            v-for="dish in filteredDishes"
-            :key="dish.id"
-            :title="dish.name"
-            :price="dish.price"
-            :available="dish.bowls"
-            :image="dish.image"
-            @add-to-cart="addToCart"
-          />
+          <DishCard v-for="dish in filteredDishes" :key="dish.id" :title="dish.name" :price="dish.price"
+            :available="dish.bowls" :image="dish.image" @add-to-cart="addToCart" />
         </div>
 
         <!-- Empty State -->
-        <div
-          v-if="filteredDishes.length === 0"
-          class="flex flex-col items-center justify-center py-20 text-gray-400"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-16 w-16 mb-4 opacity-50"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
+        <div v-if="filteredDishes.length === 0" class="flex flex-col items-center justify-center py-20 text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <p class="text-lg">No dishes available in this category</p>
         </div>
@@ -134,40 +87,23 @@
       <!-- ========================================
            RIGHT SECTION: ORDER CARD
       ======================================== -->
-      <div
-        class="w-[400px] bg-[#1F1D2B] border-l border-gray-800 flex flex-col"
-      >
+      <div class="w-[400px] bg-[#1F1D2B] border-l border-gray-800 md:flex flex-col hidden">
         <div class="p-6 flex-1 overflow-hidden flex flex-col">
           <!-- Order Card Component -->
-          <OrderCard
-            :order-number="orderNumber"
-            :order-items="orderItems"
-            :discount="discount"
-            v-model:selected-order-type="orderType"
-            @remove-item="removeFromOrder"
-            @continue-payment="handlePayment"
-            @update-quantity="updateItemQuantity"
-            @update-note="updateItemNote"
-          />
+          <OrderCard :order-number="orderNumber" :order-items="orderItems" :discount="discount"
+            v-model:selected-order-type="orderType" @remove-item="removeFromOrder" @continue-payment="handlePayment"
+            @update-quantity="updateItemQuantity" @update-note="updateItemNote" />
         </div>
       </div>
     </div>
 
     <!-- Success Notification (Optional) -->
     <transition name="slide-up">
-      <div
-        v-if="showNotification"
-        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-[#EA7C69] text-white px-6 py-3 rounded-lg shadow-xl z-50"
-      >
+      <div v-if="showNotification"
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-[#EA7C69] text-white px-6 py-3 rounded-lg shadow-xl z-50">
         <div class="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <span>{{ notificationMessage }}</span>
@@ -390,11 +326,11 @@ const handlePayment = (orderData) => {
   // Show success message
   alert(
     `Order #${orderNumber.value} placed successfully!\n\n` +
-      `Type: ${orderData.orderType}\n` +
-      `Items: ${orderData.items.length}\n` +
-      `Subtotal: $${orderData.subtotal.toFixed(2)}\n` +
-      `Discount: $${orderData.discount.toFixed(2)}\n` +
-      `Total: $${orderData.total.toFixed(2)}`
+    `Type: ${orderData.orderType}\n` +
+    `Items: ${orderData.items.length}\n` +
+    `Subtotal: $${orderData.subtotal.toFixed(2)}\n` +
+    `Discount: $${orderData.discount.toFixed(2)}\n` +
+    `Total: $${orderData.total.toFixed(2)}`
   );
 
   // Clear cart after successful payment
@@ -479,6 +415,15 @@ watch(activeCategory, (newCategory) => {
 .slide-up-leave-to {
   transform: translate(-50%, 100px);
   opacity: 0;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
 

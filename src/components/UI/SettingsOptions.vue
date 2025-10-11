@@ -1,26 +1,82 @@
+<script setup>
+import { ref } from 'vue';
+
+const activeSection = ref('appearance');
+
+const settingsItems = [
+  {
+    id: 'appearance',
+    title: 'Appearance',
+    description: 'Dark and Light mode, Font size',
+    icon: 'heart',
+    color: '#ff6b6b'
+  },
+  {
+    id: 'restaurant',
+    title: 'Your Restaurant',
+    description: 'Dark and Light mode, Font size',
+    icon: 'calendar',
+    color: '#54363B'
+  },
+  {
+    id: 'products',
+    title: 'Products Management',
+    description: 'Manage your product, pricing, etc',
+    icon: 'settings',
+    color: '#54363B'
+  },
+  {
+    id: 'notifications',
+    title: 'Notifications',
+    description: 'Customize your notifications',
+    icon: 'bell',
+    color: '#54363B'
+  },
+  {
+    id: 'security',
+    title: 'Security',
+    description: 'Configure Password, PIN, etc',
+    icon: 'lock',
+    color: '#54363B'
+  },
+  {
+    id: 'about',
+    title: 'About Us',
+    description: 'Find out more about Posly',
+    icon: 'info',
+    color: '#54363B'
+  }
+];
+
+const selectSection = (sectionId) => {
+  activeSection.value = sectionId;
+};
+</script>
+
 <template>
-  <div class="h-full w-[500px] bg-[#201D2B] text-white rounded-md py-4">
-    <div class="">
+  <div class="h-full w-full max-w-[500px] bg-[#201D2B] text-white rounded-md py-2 sm:py-4 mx-auto">
+    <div class="space-y-1 sm:space-y-0">
       <!-- Appearance -->
       <div
-        @click="activeSection = 'appearance'"
+        @click="selectSection('appearance')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'appearance'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center',
-            activeSection === 'appearance' ? 'bg-[#ff6b6b]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'appearance' ? 'bg-[#6c5248]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -33,36 +89,39 @@
             ></path>
           </svg>
         </div>
-        <div class="flex-1">
-          <h3 class="text-base font-medium mb-1">Appearance</h3>
-          <p class="text-sm text-gray-400">Dark and Light mode, Font size</p>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm sm:text-base font-medium mb-0.5 sm:mb-1">Appearance</h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Dark and Light mode, Font size
+          </p>
         </div>
         <div
           v-if="activeSection === 'appearance'"
-          class="flex-shrink-0 w-1 h-12 bg-[#ff6b6b] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#6c5248] rounded-full"
         ></div>
       </div>
 
       <!-- Your Restaurant -->
       <div
-        @click="activeSection = 'restaurant'"
+        @click="selectSection('restaurant')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'restaurant'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center',
-            activeSection === 'restaurant' ? 'bg-[#54363B]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'restaurant' ? 'bg-[#54363B]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -76,36 +135,39 @@
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
         </div>
-        <div class="flex-1">
-          <h3 class="text-base font-medium mb-1">Your Restaurant</h3>
-          <p class="text-sm text-gray-400">Dark and Light mode, Font size</p>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm sm:text-base font-medium mb-0.5 sm:mb-1">Your Restaurant</h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Dark and Light mode, Font size
+          </p>
         </div>
         <div
           v-if="activeSection === 'restaurant'"
-          class="flex-shrink-0 w-1 h-12 bg-[#54363B] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#54363B] rounded-full"
         ></div>
       </div>
 
       <!-- Products Management -->
       <div
-        @click="activeSection = 'products'"
+        @click="selectSection('products')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'products'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 flex items-center justify-center',
-            activeSection === 'products' ? 'bg-[#54363B]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'products' ? 'bg-[#54363B]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -119,43 +181,46 @@
             ></path>
           </svg>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h3
-          :class="[
-          'text-base font-medium mb-1',
-          activeSection === 'products'
-            ? 'text-[#EA7D6A]'
-            : 'text-white',
-        ]"
-          >Products Management</h3>
-          <p class="text-sm text-gray-400">Manage your product, pricing, etc</p>
+            :class="[
+              'text-sm sm:text-base font-medium mb-0.5 sm:mb-1',
+              activeSection === 'products' ? 'text-[#EA7D6A]' : 'text-white',
+            ]"
+          >
+            Products Management
+          </h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Manage your product, pricing, etc
+          </p>
         </div>
         <div
           v-if="activeSection === 'products'"
-          class="flex-shrink-0 w-1 h-12 bg-[#54363B] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#54363B] rounded-full"
         ></div>
       </div>
 
       <!-- Notifications -->
       <div
-        @click="activeSection = 'notifications'"
+        @click="selectSection('notifications')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'notifications'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center',
-            activeSection === 'notifications' ? 'bg-[#54363B]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'notifications' ? 'bg-[#54363B]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -167,36 +232,39 @@
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
         </div>
-        <div class="flex-1">
-          <h3 class="text-base font-medium mb-1">Notifications</h3>
-          <p class="text-sm text-gray-400">Customize your notifications</p>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm sm:text-base font-medium mb-0.5 sm:mb-1">Notifications</h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Customize your notifications
+          </p>
         </div>
         <div
           v-if="activeSection === 'notifications'"
-          class="flex-shrink-0 w-1 h-12 bg-[#54363B] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#54363B] rounded-full"
         ></div>
       </div>
 
       <!-- Security -->
       <div
-        @click="activeSection = 'security'"
+        @click="selectSection('security')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'security'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center',
-            activeSection === 'security' ? 'bg-[#54363B]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'security' ? 'bg-[#54363B]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -208,36 +276,39 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
         </div>
-        <div class="flex-1">
-          <h3 class="text-base font-medium mb-1">Security</h3>
-          <p class="text-sm text-gray-400">Configure Password, PIN, etc</p>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm sm:text-base font-medium mb-0.5 sm:mb-1">Security</h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Configure Password, PIN, etc
+          </p>
         </div>
         <div
           v-if="activeSection === 'security'"
-          class="flex-shrink-0 w-1 h-12 bg-[#54363B] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#54363B] rounded-full"
         ></div>
       </div>
 
       <!-- About Us -->
       <div
-        @click="activeSection = 'about'"
+        @click="selectSection('about')"
         :class="[
-          'flex items-start gap-4 p-6 cursor-pointer transition-all',
+          'flex items-start gap-3 sm:gap-4 p-4 sm:p-6 cursor-pointer transition-all',
           activeSection === 'about'
             ? 'bg-[#6c5248]'
-            : 'bg-[#1f1d2b] hover:bg-[#2d303e]',
+            : 'bg-[#1f1d2b] hover:bg-[#2d303e] active:bg-[#2d303e]',
         ]"
       >
         <div
           :class="[
-            'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center',
-            activeSection === 'about' ? 'bg-[#54363B]' : '',
+            'flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all',
+            activeSection === 'about' ? 'bg-[#54363B]' : 'bg-transparent',
           ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            class="sm:w-6 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -250,20 +321,52 @@
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
         </div>
-        <div class="flex-1">
-          <h3 class="text-base font-medium mb-1">About Us</h3>
-          <p class="text-sm text-gray-400">Find out more about Posly</p>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm sm:text-base font-medium mb-0.5 sm:mb-1">About Us</h3>
+          <p class="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">
+            Find out more about Posly
+          </p>
         </div>
         <div
           v-if="activeSection === 'about'"
-          class="flex-shrink-0 w-1 h-12 bg-[#54363B] rounded-full"
+          class="flex-shrink-0 w-0.5 sm:w-1 h-10 sm:h-12 bg-[#54363B] rounded-full"
         ></div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<style scoped>
+/* Prevent text selection on menu items */
+div[class*="cursor-pointer"] {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Line clamp for text overflow */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Active state feedback on mobile */
+@media (max-width: 640px) {
+  div[class*="cursor-pointer"]:active {
+    transform: scale(0.98);
+  }
+}
+</style>
+ <!-- <script>
 export default {
   data() {
     return {
@@ -271,4 +374,4 @@ export default {
     };
   },
 };
-</script>
+</script>  -->

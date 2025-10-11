@@ -1,7 +1,7 @@
 <template>
-  <div class="p-6 h-screen">
-    <h1 class="text-3xl font-semibold mb-8 text-white">Settings</h1>
-    <div class="flex justify-between gap-6 h-full">
+  <div class="p-6 h-screen gap-4">
+    <h1 class="text-3xl font-semibold pb-6 text-white">Settings</h1>
+    <div class="flex flex-col md:flex-row justify-between gap-6">
       <SettingsOptions />
 
       <ProductsManagementVue />
