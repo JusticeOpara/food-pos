@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <div class="flex items-center h-full">
+    <div class="flex md:flex-row flex-col items-center h-full">
       <div class="w-56 h-56">
         <apexchart
           type="donut"
@@ -20,7 +20,7 @@
         />
       </div>
 
-      <div class="flex-1 space-y-6">
+      <div class="flex-1 space-y-6 ">
         <div
           v-for="item in chartData"
           :key="item.label"

@@ -8,7 +8,7 @@
         <div class="flex justify-between">
           <!-- Header -->
           <div class="mb-8">
-            <h1 class="text-3xl font-bold text-white mb-1">Jakarta Resto</h1>
+            <h1 class="md:text-3xl text-base font-bold text-white mb-1">Jakarta Resto</h1>
             <p class="text-gray-400 text-sm">{{ currentDate }}</p>
           </div>
           <!-- Search Bar -->
@@ -68,7 +68,7 @@
           </div>
         </div>
         <!-- Dishes Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 ">
+        <div class="grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 ">
           <DishCard v-for="dish in filteredDishes" :key="dish.id" :title="dish.name" :price="dish.price"
             :available="dish.bowls" :image="dish.image" @add-to-cart="addToCart" />
         </div>
