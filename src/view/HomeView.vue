@@ -8,7 +8,7 @@
         <div class="flex justify-between">
           <!-- Header -->
           <div class="mb-8">
-            <h1 class="md:text-3xl text-base font-bold text-white mb-1">Jakarta Resto</h1>
+            <h1 class="md:text-3xl text-base font-bold text-white mb-1">  Good {{ timeOfDay }}, Restaurateur</h1>
             <p class="text-gray-400 text-sm">{{ currentDate }}</p>
           </div>
           <!-- Search Bar -->
@@ -178,6 +178,21 @@ const dineOptions = ["Dine In", "To Go", "Delivery"];
 // ========================================
 // COMPUTED PROPERTIES
 // ========================================
+
+
+const timeOfDay = computed(() => {
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    return 'Morning';
+  } else if (hour >= 12 && hour < 17) {
+    return 'Afternoon';
+  } else if (hour >= 17 && hour < 21) {
+    return 'Evening';
+  } else {
+    return 'Night';
+  }
+});
 
 const currentDate = computed(() => {
   const options = {

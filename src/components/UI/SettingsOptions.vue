@@ -1,52 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const activeSection = ref('appearance');
-
-const settingsItems = [
-  {
-    id: 'appearance',
-    title: 'Appearance',
-    description: 'Dark and Light mode, Font size',
-    icon: 'heart',
-    color: '#ff6b6b'
-  },
-  {
-    id: 'restaurant',
-    title: 'Your Restaurant',
-    description: 'Dark and Light mode, Font size',
-    icon: 'calendar',
-    color: '#54363B'
-  },
-  {
-    id: 'products',
-    title: 'Products Management',
-    description: 'Manage your product, pricing, etc',
-    icon: 'settings',
-    color: '#54363B'
-  },
-  {
-    id: 'notifications',
-    title: 'Notifications',
-    description: 'Customize your notifications',
-    icon: 'bell',
-    color: '#54363B'
-  },
-  {
-    id: 'security',
-    title: 'Security',
-    description: 'Configure Password, PIN, etc',
-    icon: 'lock',
-    color: '#54363B'
-  },
-  {
-    id: 'about',
-    title: 'About Us',
-    description: 'Find out more about Posly',
-    icon: 'info',
-    color: '#54363B'
-  }
-];
+const activeSection = ref('products');
 
 const selectSection = (sectionId) => {
   activeSection.value = sectionId;
@@ -366,12 +321,3 @@ div[class*="cursor-pointer"] {
   }
 }
 </style>
- <!-- <script>
-export default {
-  data() {
-    return {
-      activeSection: "products",
-    };
-  },
-};
-</script>  -->
